@@ -1,22 +1,19 @@
 import { useState } from "react"
 
-export default function Player({initialName, symbol}){
+export default function Player({initialName, symbol,isActive, onChangeName}){
     const[personName,setPersonName]=useState(initialName)
     const[isEditing, setIsEditing]=useState(false)
 
     function handleInput(){
-
-         // First method: using stale value directly
-         console.log("Stale Editing (before toggle):", isEditing);
-      
-         setIsEditing(!isEditing); // This will use the old value of isEditing
-         console.log("Stale Editing (after toggle):", isEditing);
- 
-         // Second method: using functional toggle
+    
          setIsEditing((editing) => {
-             console.log("Fresh Editing (before toggle):", editing);
              return !editing; // This uses the current value of editing
          });
+         if(isEditing){
+            onChangeName(symbol,personName)
+
+         }
+        
          
         
     }
@@ -36,7 +33,7 @@ export default function Player({initialName, symbol}){
 
     return (
 
-        <li className="player">
+        <li className={isActive ? 'active': undefined}>
             <span className="player">
               {editablePlayerName}
               <span className="player-symbol">{symbol}</span>
